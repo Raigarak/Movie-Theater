@@ -5,7 +5,7 @@ public class Receipt {
 
     private List<Items> purchasedItems;
     private double totalCostWithDiscount;
-    private double totalCostWithDiscountWithoutDiscount;
+    private double totalCostWithoutDiscount;
     private double totalDiscount;
     private double additionalCustomerRewardPoints;
     private double totalItems;
@@ -25,7 +25,14 @@ public class Receipt {
         return purchasedItems.size();
     }
 
-    private double gettotalCostWithDiscount() {
+    private double getTotalCostWithoutDiscount() {
+        purchasedItems.forEach(
+                i -> totalCostWithoutDiscount += i.getPrice()
+        );
+        return totalCostWithoutDiscount;
+    }
+
+    private double getTotalCostWithDiscount() {
          purchasedItems.forEach(
                  i -> totalCostWithDiscount += i.getPrice() - i.getDiscount()
          );
@@ -49,9 +56,9 @@ public class Receipt {
 
     private void process() {
         this.totalItems = getTotalItems();
-        this.totalCostWithDiscount = gettotalCostWithDiscount();
+        this.totalCostWithDiscount = getTotalCostWithDiscount();
         this.totalDiscount = getTotalDiscount();
-        this.totalCostWithDiscountWithoutDiscount = this.totalCostWithDiscount + this.totalDiscount;
+        this.totalCostWithoutDiscount = getTotalCostWithoutDiscount();
         this.additionalCustomerRewardPoints = getAdditionalCustomerRewardPoints();
     }
 
@@ -60,7 +67,7 @@ public class Receipt {
         purchasedItems.forEach(
                 i -> sb.append(i).append("\n")
         );
-        sb.append("Total cost with no discounts: " + this.totalCostWithDiscountWithoutDiscount + " Total Cost: " + this.totalCostWithDiscount + " Total Discount: " + this.totalDiscount + " Total Reward Points: " + this.additionalCustomerRewardPoints);
+        sb.append("Total cost with no discounts: " + this.totalCostWithoutDiscount + " Total Cost: " + this.totalCostWithDiscount + " Total Discount: " + this.totalDiscount + " Total Reward Points: " + this.additionalCustomerRewardPoints);
         return sb.toString();
     }
 }
