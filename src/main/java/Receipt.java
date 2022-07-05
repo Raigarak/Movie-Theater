@@ -3,15 +3,14 @@ import java.util.List;
 
 public class Receipt {
 
-    private List<Items> purchasedItems;
+    private List<Item> purchasedItems;
     private double totalCostWithDiscount;
     private double totalCostWithoutDiscount;
     private double totalDiscount;
     private double additionalCustomerRewardPoints;
-    private double totalItems;
     private Customer customer;
 
-    public Receipt(Customer customer, List<Items> items) {
+    public Receipt(Customer customer, List<Item> items) {
         this.customer = customer;
         this.purchasedItems = items;
 
@@ -19,10 +18,6 @@ public class Receipt {
         if(customer.getBalance() < this.totalCostWithDiscount) {
             throw new IllegalStateException("Your balance of " + customer.getBalance() + " is not enough. " + "It cost: " + totalCostWithDiscount);
         }
-    }
-
-    private double getTotalItems() {
-        return purchasedItems.size();
     }
 
     private double getTotalCostWithoutDiscount() {
@@ -33,10 +28,7 @@ public class Receipt {
     }
 
     private double getTotalCostWithDiscount() {
-         purchasedItems.forEach(
-                 i -> totalCostWithDiscount += i.getPrice() - i.getDiscount()
-         );
-         return totalCostWithDiscount;
+         return this.totalCostWithoutDiscount - this.totalDiscount;
     }
 
     private double getTotalDiscount() {
@@ -47,18 +39,13 @@ public class Receipt {
     }
 
     private double getAdditionalCustomerRewardPoints() {
-        purchasedItems.forEach(
-                i -> additionalCustomerRewardPoints += i.getPrice() * Items.rewardPointMultiplier
-        );
-        customer.addRewardPoints(additionalCustomerRewardPoints);
-        return additionalCustomerRewardPoints;
+        return totalCostWithDiscount * Item.REWARD_POINT_MULTIPLIER;
     }
 
     private void process() {
-        this.totalItems = getTotalItems();
-        this.totalCostWithDiscount = getTotalCostWithDiscount();
         this.totalDiscount = getTotalDiscount();
         this.totalCostWithoutDiscount = getTotalCostWithoutDiscount();
+        this.totalCostWithDiscount = getTotalCostWithDiscount();
         this.additionalCustomerRewardPoints = getAdditionalCustomerRewardPoints();
     }
 

@@ -1,15 +1,10 @@
-public class Movie implements Items {
+public class Movie extends Item {
 
-    private String name;
-    private double price;
     private double duration;
-    private double discount;
 
-    public Movie(String name, double price, double duration, double discount) {
-        this.name = name;
-        this.price = price;
+    public Movie(String name, double price, double discount, double duration) {
+        super(name, price, discount);
         this.duration = duration;
-        this.discount = discount;
     }
 
     public double getPrice() {
@@ -28,6 +23,6 @@ public class Movie implements Items {
                 ", price = " + price +
                 ", duration = " + duration +
                 ", discount = " + discount +
-                ", rewardPoints = " + price * Items.rewardPointMultiplier;
+                ", rewardPoints = " + price * Item.REWARD_POINT_MULTIPLIER;
     }
 }

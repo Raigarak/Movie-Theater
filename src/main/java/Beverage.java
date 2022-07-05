@@ -1,13 +1,8 @@
-public class Beverage implements Items{
+public class Beverage extends Item{
 
-    private String name;
-    private double price;
-    private double discount;
 
     public Beverage(String name, double price, double discount) {
-        this.name = name;
-        this.price = price;
-        this.discount = discount;
+        super(name, price, discount);
     }
 
     @Override
@@ -26,6 +21,6 @@ public class Beverage implements Items{
                 "name = " + name +
                 ", price = " + price +
                 ", discount = " + discount +
-                ", rewardPoints = " + price * Items.rewardPointMultiplier;
+                ", rewardPoints = " + price * Item.REWARD_POINT_MULTIPLIER;
     }
 }
